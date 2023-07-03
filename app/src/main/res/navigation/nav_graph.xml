@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/backgroundFragment">
+
+    <fragment
+        android:id="@+id/backgroundFragment"
+        android:name="com.example.fortifield.ui.BackgroundFragment"
+        android:label="vad är det som händer"
+        tools:layout="@layout/fragment_background" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/sensorDataFragment"
+        android:name="com.example.fortifield.ui.SensorDataFragment"
+        android:label="Sensor Data"
+        tools:layout="@layout/fragment_sensor_data" >
+        <action
+            android:id="@+id/action_sensorDataFragment_to_combatSimulationFragment"
+            app:destination="@id/combatSimulationFragment" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/combatSimulationFragment"
+        android:name="com.example.fortifield.ui.CombatSimulationFragment"
+        android:label="Combat Simulation"
+        tools:layout="@layout/fragment_combat_simulation" >
+        <action
+            android:id="@+id/action_combatSimulationFragment_to_weaponSystemControlFragment"
+            app:destination="@id/weaponSystemControlFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/weaponSystemControlFragment"
+        android:name="com.example.fortifield.ui.WeaponSystemControlFragment"
+        android:label="Weapon System Control"
+        tools:layout="@layout/fragment_weapon_system_control" >
+        <action
+            android:id="@+id/action_weaponSystemControlFragment_to_soldierOrientationFragment"
+            app:destination="@id/soldierOrientationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/soldierOrientationFragment"
+        android:name="com.example.fortifield.ui.SoldierOrientationFragment"
+        android:label="Soldier Orientation"
+        tools:layout="@layout/fragment_soldier_orientation" >
+        <action
+            android:id="@+id/action_soldierOrientationFragment_to_sensorDataFragment"
+            app:destination="@id/sensorDataFragment" />
+    </fragment>
+</navigation>

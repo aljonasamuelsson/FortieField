@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/weaponStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Weapon Status: "
+            android:textStyle="bold"
+            android:layout_above="@id/aimControl"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/aimControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:layout_marginTop="100dp"
+            android:max="200" />
+
+        <TextView
+            android:id="@+id/aimLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aimControl"
+            android:layout_centerHorizontal="true"
+            android:text="Aim: "
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/fireButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Fire" />
+
+    </RelativeLayout>
+
+</layout>
