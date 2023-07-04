@@ -4,11 +4,12 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import com.example.fortifield.simulation.Soldier
 import com.example.fortifield.simulation.WeaponSystem
 import kotlin.math.cos
 import kotlin.math.sin
 
-class EnvironmentRenderer(private val weaponSystem: WeaponSystem) {
+class EnvironmentRenderer(private val soldier: Soldier) {
 
 
     private val soldierPaint = Paint().apply {
@@ -33,7 +34,7 @@ class EnvironmentRenderer(private val weaponSystem: WeaponSystem) {
         val soldierY = canvas.height / 2f
         canvas.drawCircle(soldierX, soldierY, 50f, soldierPaint)
         // Draw the weapon
-        val weaponAngle = Math.toRadians(weaponSystem.orientationDeterminer.orientation.angle.toDouble())
+        val weaponAngle = Math.toRadians(soldier.orientationDeterminer.orientation.angle.toDouble())
         val weaponX = soldierX + 50 * cos(weaponAngle.toFloat())
         val weaponY = soldierY + 50 * sin(weaponAngle.toFloat())
         canvas.drawLine(soldierX, soldierY, weaponX, weaponY, soldierPaint)

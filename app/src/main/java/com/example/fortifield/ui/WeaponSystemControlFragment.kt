@@ -12,6 +12,8 @@ import com.example.fortifield.R
 import com.example.fortifield.databinding.FragmentWeaponSystemControlBinding
 import com.example.fortifield.simulation.Orientation
 import com.example.fortifield.simulation.OrientationDeterminer
+import com.example.fortifield.simulation.Position
+import com.example.fortifield.simulation.Soldier
 import com.example.fortifield.simulation.WeaponSystem
 
 class WeaponSystemControlFragment : Fragment() {
@@ -20,7 +22,7 @@ class WeaponSystemControlFragment : Fragment() {
 
     // Created a mock OrientationDeterminer
     private val mockOrientation =
-        OrientationDeterminer(Orientation(System.currentTimeMillis(),0.0), "FORWARD", "UP")
+        OrientationDeterminer(Position(2f,0f),Orientation(System.currentTimeMillis(),0.0), "FORWARD", "UP")
 
     private val weaponSystem = WeaponSystem(mockOrientation)
 

@@ -10,13 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fortifield.R
 import com.example.fortifield.databinding.FragmentCombatSimulationBinding
 import com.example.fortifield.rendering.EnvironmentRenderer
 import com.example.fortifield.simulation.Orientation
 import com.example.fortifield.simulation.OrientationDeterminer
+import com.example.fortifield.simulation.Position
+import com.example.fortifield.simulation.Soldier
 import com.example.fortifield.simulation.WeaponSystem
-import kotlin.math.cos
 import kotlin.math.sin
 
 // This fragment is responsible for displaying the combat simulation
@@ -28,11 +28,10 @@ class CombatSimulationFragment : Fragment() {
     private var _binding: FragmentCombatSimulationBinding? = null
     private val binding get() = _binding!!
 
-    private val mockOrientation = OrientationDeterminer(Orientation(System.currentTimeMillis(), 0.0), "FORWARD", "UP")
+    private val mockOrientation = OrientationDeterminer(Position(3f, 0f), Orientation(System.currentTimeMillis(), 0.0), "FORWARD", "UP")
+    private val soldier = Soldier(mockOrientation )
 
 
-    // Create a WeaponSystem
-    private val weaponSystem = WeaponSystem(mockOrientation)
 
     // Create an EnvironmentRenderer using the WeaponSystem
     private lateinit var environmentRenderer: EnvironmentRenderer
@@ -64,7 +63,7 @@ class CombatSimulationFragment : Fragment() {
         _binding = FragmentCombatSimulationBinding.inflate(inflater, container, false)
 
         // Initialize the EnvironmentRenderer
-        environmentRenderer = EnvironmentRenderer(weaponSystem)
+        environmentRenderer = EnvironmentRenderer(soldier)
         combatView = CombatView(requireContext())
 
         // Add the CombatView to the layout
@@ -72,6 +71,8 @@ class CombatSimulationFragment : Fragment() {
 
         return binding.root
     }
+
+
 
     // This method is called after the view for this fragment has been created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,7 +83,11 @@ class CombatSimulationFragment : Fragment() {
 
         // Update the soldier's orientation
         val newAngle = 45.0 // Replace with the desired angle
-        weaponSystem.updateOrientation(newAngle)
+
+        soldier.updateOrientation(OrientationDeterminer(Position(0f, 0f), Orientation(System.currentTimeMillis(), newAngle), "FORWARD", "UP"))
+
+
+
 
         // Redraw the view
         combatView.invalidate()
