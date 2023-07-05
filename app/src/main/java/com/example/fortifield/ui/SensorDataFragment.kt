@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fortifield.MainActivity
 import com.example.fortifield.R
 import com.example.fortifield.databinding.FragmentSensorDataBinding
 import com.example.fortifield.sensors.SensorData
@@ -20,7 +22,8 @@ class SensorDataFragment : Fragment() {
 
     // Declare sensorDataAdapter
     private lateinit var sensorDataAdapter: SensorDataAdapter
-    private val sensorDataList: List<SensorData> = SensorData.createMockData()
+
+   // private val sensorDataList: List<SensorData> = SensorData.createMockData()
 
 
     //This method is called when the view for this fragment is created
@@ -40,9 +43,16 @@ class SensorDataFragment : Fragment() {
         Log.d("SensorDataFragment", "SensorData-view has been created")
 
         sensorDataAdapter =
-            SensorDataAdapter(sensorDataList) // TODO: Replace with my actual sensor data
+            SensorDataAdapter() // TODO: Replace with my actual sensor data
         binding.sensorDataRecyclerView.adapter = sensorDataAdapter
         binding.sensorDataRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        val mainActivity = activity as MainActivity
+
+        mainActivity.deviceHandler.sensorData.observe(viewLifecycleOwner, Observer { data ->
+            sensorDataAdapter.updateData(data)
+        })
+
 
     }
 

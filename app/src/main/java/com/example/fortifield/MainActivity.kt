@@ -1,6 +1,10 @@
 package com.example.fortifield
 
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
@@ -23,6 +27,8 @@ import com.example.fortifield.ui.BackgroundFragment
 import com.example.fortifield.ui.WeaponSystemControlFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import com.example.fortifield.devices.AndroidDeviceHandler
 import com.google.android.material.tabs.TabLayout
 
 
@@ -32,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var userInterface: BackgroundFragment
+    lateinit var deviceHandler: AndroidDeviceHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("onCreate", "Starting the app")
@@ -41,6 +48,20 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        deviceHandler = AndroidDeviceHandler(this)
+        deviceHandler.handleDevice()
+
+        deviceHandler.sensorData.observe(this, Observer { data->
+
+        })
+
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+
+        for (sensor in deviceSensors) {
+            Log.d("SensorList", "Sensor name: ${sensor.name}")
+        }
 
 
         // Create an adapter that knows which fragment should be shown on each page
@@ -104,8 +125,13 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // No action needed on reselection
             }
+
+
         })
+
     }
+
+
 
 
 
@@ -133,7 +159,10 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
+
+
 }
+
 
 // This is the adapter for the view pager
 class MyPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
