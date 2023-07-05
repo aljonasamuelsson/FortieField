@@ -11,11 +11,16 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 data class SensorData(
     val sensor: Sensor,
-    val axis: String,
-    var value: Float
+    var xValue: Float,
+    var yValue: Float,
+    var zValue: Float
 ) {
     fun setupLineChart(lineChart: LineChart) {
-        val lineEntries = listOf(Entry(0f, value))
+        val lineEntries = listOf(
+            Entry(0f, xValue),
+            Entry(1f, yValue),
+            Entry(2f, zValue)
+        )
 
         val lineDataSet = LineDataSet(lineEntries, "Sensor Data")
         lineDataSet.color = Color.BLUE // Customize the line color if needed
@@ -43,18 +48,16 @@ data class SensorData(
 
         // Create a description for the axis information and position it below the title
         val axisDescription = Description()
-        axisDescription.text = "Axis: $axis"
+        axisDescription.text = "Axis: XYZ"
         axisDescription.setPosition(0f, 0f) // Position the description below the title
 
         // Add the axis description to the chart
-        lineChart.extraBottomOffset = 30f // Adjust the distance between the title and the axis description
+        lineChart.extraBottomOffset =
+            30f // Adjust the distance between the title and the axis description
         lineChart.description = axisDescription
 
         lineChart.setPinchZoom(true)
-        lineChart.isDoubleTapToZoomEnabled = true
-        lineChart.setScaleEnabled(true)
+        lineChart.isDoubleTapToZoomEnabled
 
-        lineChart.notifyDataSetChanged()
-        lineChart.invalidate()
     }
 }

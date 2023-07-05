@@ -41,7 +41,7 @@ class AndroidDeviceHandler(private val context: Context) : SensorEventListener {
             val yValue = values[1]
             val zValue = values[2]
 
-            val newSensorData = SensorData(sensor, "XYZ", xValue)
+            val newSensorData = SensorData(sensor, xValue, yValue, zValue)
             sensorValueMap[sensor] = newSensorData
 
             val updatedSensorDataList = sensorValueMap.values.toList()

@@ -37,9 +37,9 @@ class SensorDataAdapter : RecyclerView.Adapter<SensorDataAdapter.ViewHolder>() {
         holder.sensorName.text = sensorValue.sensor.name
 
         val lineEntries = mutableListOf<Entry>()
-        val xValue = sensorValue.value
-        val yValue = sensorValue.value
-        val zValue = sensorValue.value
+        val xValue = sensorValue.xValue
+        val yValue = sensorValue.yValue
+        val zValue = sensorValue.zValue
 
         lineEntries.add(Entry(0f, xValue))
         lineEntries.add(Entry(1f, yValue))
