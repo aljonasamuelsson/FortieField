@@ -1,7 +1,9 @@
 package com.example.fortifield
 
 
+import SoldierOrientationFragment
 import android.content.Context
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorManager
@@ -22,7 +24,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.fortifield.databinding.ActivityMainBinding
 import com.example.fortifield.ui.CombatSimulationFragment
 import com.example.fortifield.ui.SensorDataFragment
-import com.example.fortifield.ui.SoldierOrientationFragment
 import com.example.fortifield.ui.BackgroundFragment
 import com.example.fortifield.ui.WeaponSystemControlFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -33,18 +34,18 @@ import com.google.android.material.tabs.TabLayout
 
 
 class MainActivity : AppCompatActivity() {
-
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var userInterface: BackgroundFragment
     lateinit var deviceHandler: AndroidDeviceHandler
 
+    private val activityRecognitionPermission = "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
+    private var permissionGranted: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("onCreate", "Starting the app")
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         deviceHandler = AndroidDeviceHandler(this)
         deviceHandler.handleDevice()
 
-        deviceHandler.sensorData.observe(this, Observer { data->
+        deviceHandler.sensorData.observe(this, Observer { data ->
 
         })
 
@@ -63,7 +64,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("SensorList", "Sensor name: ${sensor.name}")
         }
 
-
         // Create an adapter that knows which fragment should be shown on each page
         val adapter = MyPagerAdapter(this)
 
@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.adapter = adapter
 
         binding.tabs.tabMode = TabLayout.MODE_SCROLLABLE
+
+        // Check permission
+        permissionGranted = checkPermission(activityRecognitionPermission)
+
 
 
         val shortTabTexts = listOf("Sensors", "Combat Sim", "Weapon", "S. Orient")
@@ -130,6 +134,11 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+
 
 
 

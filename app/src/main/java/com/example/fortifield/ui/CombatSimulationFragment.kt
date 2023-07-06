@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fortifield.databinding.FragmentCombatSimulationBinding
+import com.example.fortifield.devices.AndroidDeviceHandler
 import com.example.fortifield.rendering.EnvironmentRenderer
 import com.example.fortifield.simulation.Orientation
 import com.example.fortifield.simulation.OrientationDeterminer
@@ -23,6 +24,9 @@ import kotlin.math.sin
 class CombatSimulationFragment : Fragment() {
     private lateinit var orientationRecyclerView: RecyclerView
     private lateinit var orientationAdapter: SoldierOrientationAdapter
+    private lateinit var androidDeviceHandler: AndroidDeviceHandler
+    private lateinit var environmentRenderer: EnvironmentRenderer
+    private lateinit var combatView: CombatView
 
     // This is the binding object that will be used to access views in the layout
     private var _binding: FragmentCombatSimulationBinding? = null
@@ -30,12 +34,6 @@ class CombatSimulationFragment : Fragment() {
 
     private val mockOrientation = OrientationDeterminer(Position(3f, 0f), Orientation(System.currentTimeMillis(), 0.0), "FORWARD", "UP")
     private val soldier = Soldier(mockOrientation )
-
-
-
-    // Create an EnvironmentRenderer using the WeaponSystem
-    private lateinit var environmentRenderer: EnvironmentRenderer
-    private lateinit var combatView: CombatView
 
     private inner class CombatView(context: Context) : View(context) {
         override fun onDraw(canvas: Canvas?) {
@@ -58,44 +56,38 @@ class CombatSimulationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("CombatSimulationFragment", "Combat-view is being created")
-        // Inflate the layout for this fragment using the binding object
         _binding = FragmentCombatSimulationBinding.inflate(inflater, container, false)
 
-        // Initialize the EnvironmentRenderer
+        androidDeviceHandler = AndroidDeviceHandler(requireContext())
         environmentRenderer = EnvironmentRenderer(soldier)
         combatView = CombatView(requireContext())
 
-        // Add the CombatView to the layout
         binding.combatSimulationLayout.addView(combatView)
 
         return binding.root
     }
 
-
-
-    // This method is called after the view for this fragment has been created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("CombatSimulationFragment", "Combat-view is now created")
-        // TODO: Add code to display combat simulation
+        androidDeviceHandler.handleDevice()
 
-        // Update the soldier's orientation
-        val newAngle = 45.0 // Replace with the desired angle
+        androidDeviceHandler.soldierOrientation.observe(viewLifecycleOwner) { orientationDeterminer ->
+            // Update the soldier's orientation
+            soldier.updateOrientation(orientationDeterminer)
 
-        soldier.updateOrientation(OrientationDeterminer(Position(0f, 0f), Orientation(System.currentTimeMillis(), newAngle), "FORWARD", "UP"))
+            // Redraw the view
+            combatView.invalidate()
+        }
 
-
-
-
-        // Redraw the view
-        combatView.invalidate()
     }
 
     // This method is called when the view for this fragment is destroyed
     override fun onDestroyView() {
         super.onDestroyView()
+
+        androidDeviceHandler.stopHandlingDevice()
+
         _binding = null
         Log.d("CombatSimulationFragment", "Combat-view has been destroyed")
     }

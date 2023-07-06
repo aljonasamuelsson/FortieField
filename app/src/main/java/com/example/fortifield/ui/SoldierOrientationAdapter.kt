@@ -4,12 +4,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fortifield.R
-import com.example.fortifield.simulation.Orientation
 import com.example.fortifield.simulation.OrientationDeterminer
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class SoldierOrientationAdapter(private val orientationDeterminerList: List<OrientationDeterminer>) :
+class SoldierOrientationAdapter(private var orientationDeterminerList: MutableList<OrientationDeterminer>) :
     RecyclerView.Adapter<SoldierOrientationAdapter.MovementViewHolder>() {
 
     class MovementViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -35,5 +34,11 @@ class SoldierOrientationAdapter(private val orientationDeterminerList: List<Orie
     private fun formatTimestamp(timestamp: Long): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         return dateFormat.format(Date(timestamp))
+    }
+
+    fun updateData(newData: List<OrientationDeterminer>) {
+        orientationDeterminerList.clear()
+        orientationDeterminerList.addAll(newData)
+        notifyDataSetChanged()
     }
 }
