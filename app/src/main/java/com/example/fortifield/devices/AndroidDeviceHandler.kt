@@ -5,6 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.fortifield.sensors.SensorData
 import com.example.fortifield.simulation.Orientation
@@ -28,6 +29,8 @@ class AndroidDeviceHandler(private val context: Context) : SensorEventListener {
     }
 
     fun stopHandlingDevice() {
+        Log.d("Aljona_AndroidDeviceHandler", "androidDeviceHandler-> Stopped handling device")
+
         sensorManager.unregisterListener(this)
     }
 
@@ -36,6 +39,7 @@ class AndroidDeviceHandler(private val context: Context) : SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent) {
+
         val sensor = event.sensor
         val sensorName = "${sensor.name} (${sensor.type})"
         val values = event.values
@@ -54,8 +58,6 @@ class AndroidDeviceHandler(private val context: Context) : SensorEventListener {
 
         }
 
-
     }
-
 
 }

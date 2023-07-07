@@ -2,6 +2,7 @@ package com.example.fortifield.sensors
 
 import android.graphics.Color
 import android.hardware.Sensor
+import android.util.Log
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.Entry
@@ -10,16 +11,14 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 data class SensorData(
-    val sensor: Sensor,
-    var xValue: Float,
-    var yValue: Float,
-    var zValue: Float
+    val sensor: Sensor, var xValue: Float, var yValue: Float, var zValue: Float
+
 ) {
+
+
     fun setupLineChart(lineChart: LineChart) {
         val lineEntries = listOf(
-            Entry(0f, xValue),
-            Entry(1f, yValue),
-            Entry(2f, zValue)
+            Entry(0f, xValue), Entry(1f, yValue), Entry(2f, zValue)
         )
 
         val lineDataSet = LineDataSet(lineEntries, "Sensor Data")

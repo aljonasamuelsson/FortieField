@@ -1,39 +1,30 @@
 package com.example.fortifield
 
-import android.Manifest
-
 import SoldierOrientationFragment
-import android.content.Context
-import android.content.pm.PackageManager
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.fortifield.databinding.ActivityMainBinding
+import com.example.fortifield.devices.AndroidDeviceHandler
+import com.example.fortifield.ui.BackgroundFragment
 import com.example.fortifield.ui.CombatSimulationFragment
 import com.example.fortifield.ui.SensorDataFragment
-import com.example.fortifield.ui.BackgroundFragment
 import com.example.fortifield.ui.WeaponSystemControlFragment
-import com.google.android.material.tabs.TabLayoutMediator
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import com.example.fortifield.devices.AndroidDeviceHandler
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,6 +35,8 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("Aljona_MainActivity", "MainActivity-> onCreate called")
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
@@ -51,9 +44,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         deviceHandler = AndroidDeviceHandler(this)
+        Log.d("Aljona_MainActivity", "MainActivity-> AndroidDeviceHandler created")
+
         deviceHandler.handleDevice()
+        Log.d("Aljona_MainActivity", "MainActivity-> AndroidDeviceHandler handling device")
+
 
         deviceHandler.sensorData.observe(this, Observer { data ->
+
 
         })
 
@@ -99,6 +97,8 @@ class MainActivity : AppCompatActivity() {
         // Add a tab selected listener to change tab text on selection
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.d("Aljona_MainActivity", "MainActivity-> Tab selected: ${tab?.text}")
+
                 for (i in 0 until binding.tabs.tabCount) {
                     binding.tabs.getTabAt(i)?.text = shortTabTexts[i]
                 }
