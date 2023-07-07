@@ -31,7 +31,6 @@ class SensorDataFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        Log.d("SensorDataFragment", "SensorData-view is being created")
         //Inflate the layout for this fragment using the binding object
         _binding = FragmentSensorDataBinding.inflate(inflater, container, false)
         return binding.root
@@ -40,7 +39,6 @@ class SensorDataFragment : Fragment() {
     //This method is called after the view for this fragment has been created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("SensorDataFragment", "SensorData-view has been created")
 
         sensorDataAdapter =
             SensorDataAdapter() // TODO: Replace with my actual sensor data
@@ -60,7 +58,6 @@ class SensorDataFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        Log.d("SensorDataFragment", "SensorData-view has been destroyed")
     }
 }
 

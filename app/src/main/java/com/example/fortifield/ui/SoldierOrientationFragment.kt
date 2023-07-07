@@ -43,7 +43,6 @@ class SoldierOrientationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("SoldierOrientationFragment", "SoldierOri-view is being created")
         _binding = FragmentSoldierOrientationBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -51,7 +50,6 @@ class SoldierOrientationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("SoldierOrientationFragment", "SoldierOri-view has been created")
 
 
         soldierorientationAdapter = SoldierOrientationAdapter(orientationsList as MutableList<OrientationDeterminer>)
@@ -65,6 +63,5 @@ class SoldierOrientationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        Log.d("SoldierOrientationFragment", "SoldierOri-view has been destroyed")
     }
 }

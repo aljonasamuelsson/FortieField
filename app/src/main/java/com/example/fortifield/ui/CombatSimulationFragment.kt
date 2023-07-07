@@ -80,6 +80,5 @@ class CombatSimulationFragment : Fragment() {
         super.onDestroyView()
 
         _binding = null
-        Log.d("CombatSimulationFragment", "Combat-view has been destroyed")
     }
 }

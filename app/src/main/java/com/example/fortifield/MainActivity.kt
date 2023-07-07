@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("startar appen", "onCreateMAinActivity")
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
@@ -76,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         // Connect the tab layout with the view pager
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = shortTabTexts[position]
-            Log.d("TabLayoutMediator", "Creating tab for position: $position")
             tab.icon = when (position) {
                 0 -> ContextCompat.getDrawable(this, R.drawable.sensor_data)
                 1 -> ContextCompat.getDrawable(this, R.drawable.combat_simulation)
@@ -95,8 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAnchorView(R.id.fab)
-                .setAction("Action", null).show()
+                .setAnchorView(R.id.fab).setAction("Action", null).show()
         }
 
         // Add a tab selected listener to change tab text on selection
@@ -104,16 +101,12 @@ class MainActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 for (i in 0 until binding.tabs.tabCount) {
                     binding.tabs.getTabAt(i)?.text = shortTabTexts[i]
-                    Log.d("addOnTabSelectedListener", "Making tab ${i} to short text")
                 }
 
                 // Then set the text for the selected tab
                 val position = tab?.position ?: 0
                 tab?.text = fullTabTexts[position]
-                Log.d(
-                    "addOnTabSelectedListener",
-                    "making ${shortTabTexts[position]} to ${fullTabTexts[position]}"
-                )
+
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -148,8 +141,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
 }
@@ -162,7 +154,6 @@ class MyPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int = 4
 
     override fun createFragment(position: Int): Fragment {
-        Log.d("createFragment", "Creating fragment for position: $position")
 
         return when (position) {
             0 -> SensorDataFragment()

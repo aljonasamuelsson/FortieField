@@ -36,7 +36,6 @@ class WeaponSystemControlFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("ALJOOOONA" , "$weaponSystem")
 
         binding.fireButton.setOnClickListener {
             weaponSystem.fire()
