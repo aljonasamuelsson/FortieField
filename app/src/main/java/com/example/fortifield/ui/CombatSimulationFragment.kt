@@ -24,9 +24,7 @@ import kotlin.math.sin
 class CombatSimulationFragment : Fragment() {
     private lateinit var orientationRecyclerView: RecyclerView
     private lateinit var orientationAdapter: SoldierOrientationAdapter
-    private lateinit var androidDeviceHandler: AndroidDeviceHandler
-    private lateinit var environmentRenderer: EnvironmentRenderer
-    private lateinit var combatView: CombatView
+
 
     // This is the binding object that will be used to access views in the layout
     private var _binding: FragmentCombatSimulationBinding? = null
@@ -34,6 +32,10 @@ class CombatSimulationFragment : Fragment() {
 
     private val mockOrientation = OrientationDeterminer(Position(3f, 0f), Orientation(System.currentTimeMillis(), 0.0), "FORWARD", "UP")
     private val soldier = Soldier(mockOrientation )
+
+    // Create an EnvironmentRenderer using the WeaponSystem
+    private lateinit var environmentRenderer: EnvironmentRenderer
+    private lateinit var combatView: CombatView
 
     private inner class CombatView(context: Context) : View(context) {
         override fun onDraw(canvas: Canvas?) {
@@ -58,7 +60,6 @@ class CombatSimulationFragment : Fragment() {
     ): View? {
         _binding = FragmentCombatSimulationBinding.inflate(inflater, container, false)
 
-        androidDeviceHandler = AndroidDeviceHandler(requireContext())
         environmentRenderer = EnvironmentRenderer(soldier)
         combatView = CombatView(requireContext())
 
@@ -70,23 +71,13 @@ class CombatSimulationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        androidDeviceHandler.handleDevice()
-
-        androidDeviceHandler.soldierOrientation.observe(viewLifecycleOwner) { orientationDeterminer ->
-            // Update the soldier's orientation
-            soldier.updateOrientation(orientationDeterminer)
-
-            // Redraw the view
-            combatView.invalidate()
-        }
+        combatView.invalidate()
 
     }
 
     // This method is called when the view for this fragment is destroyed
     override fun onDestroyView() {
         super.onDestroyView()
-
-        androidDeviceHandler.stopHandlingDevice()
 
         _binding = null
         Log.d("CombatSimulationFragment", "Combat-view has been destroyed")

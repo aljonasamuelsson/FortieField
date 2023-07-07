@@ -1,11 +1,13 @@
 package com.example.fortifield
 
+import android.Manifest
 
 import SoldierOrientationFragment
 import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +20,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -39,11 +42,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userInterface: BackgroundFragment
     lateinit var deviceHandler: AndroidDeviceHandler
 
-    private val activityRecognitionPermission = "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
-    private var permissionGranted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("onCreate", "Starting the app")
+        Log.d("startar appen", "onCreateMAinActivity")
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
@@ -57,13 +58,6 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
-
-        for (sensor in deviceSensors) {
-            Log.d("SensorList", "Sensor name: ${sensor.name}")
-        }
-
         // Create an adapter that knows which fragment should be shown on each page
         val adapter = MyPagerAdapter(this)
 
@@ -73,18 +67,17 @@ class MainActivity : AppCompatActivity() {
         binding.tabs.tabMode = TabLayout.MODE_SCROLLABLE
 
         // Check permission
-        permissionGranted = checkPermission(activityRecognitionPermission)
-
 
 
         val shortTabTexts = listOf("Sensors", "Combat Sim", "Weapon", "S. Orient")
-        val fullTabTexts = listOf("Sensor Data", "Combat Simulation", "Weapon Control", "Soldier Orientation")
+        val fullTabTexts =
+            listOf("Sensor Data", "Combat Simulation", "Weapon Control", "Soldier Orientation")
 
         // Connect the tab layout with the view pager
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = shortTabTexts[position]
             Log.d("TabLayoutMediator", "Creating tab for position: $position")
-            tab.icon = when (position){
+            tab.icon = when (position) {
                 0 -> ContextCompat.getDrawable(this, R.drawable.sensor_data)
                 1 -> ContextCompat.getDrawable(this, R.drawable.combat_simulation)
                 2 -> ContextCompat.getDrawable(this, R.drawable.weapon_control)
@@ -94,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
 
-       setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -104,7 +97,6 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAnchorView(R.id.fab)
                 .setAction("Action", null).show()
-            Log.d("ellen", "2")
         }
 
         // Add a tab selected listener to change tab text on selection
@@ -118,7 +110,10 @@ class MainActivity : AppCompatActivity() {
                 // Then set the text for the selected tab
                 val position = tab?.position ?: 0
                 tab?.text = fullTabTexts[position]
-                Log.d("addOnTabSelectedListener", "making ${shortTabTexts[position]} to ${fullTabTexts[position]}")
+                Log.d(
+                    "addOnTabSelectedListener",
+                    "making ${shortTabTexts[position]} to ${fullTabTexts[position]}"
+                )
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -130,18 +125,9 @@ class MainActivity : AppCompatActivity() {
                 // No action needed on reselection
             }
 
-
         })
 
     }
-    private fun checkPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-    }
-
-
-
-
-
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -154,7 +140,6 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        Log.d("ellen", "4")
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
@@ -162,13 +147,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        Log.d("ellen", "5")
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
-
-
 
 }
 

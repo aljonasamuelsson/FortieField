@@ -18,7 +18,6 @@ class AndroidDeviceHandler(private val context: Context) : SensorEventListener {
     private val sensorValueMap: MutableMap<Sensor, SensorData> = mutableMapOf()
 
     val sensorData = MutableLiveData<List<SensorData>>()
-    val soldierOrientation = MutableLiveData<OrientationDeterminer>()
 
 
     fun handleDevice() {
@@ -53,24 +52,7 @@ class AndroidDeviceHandler(private val context: Context) : SensorEventListener {
             sensorData.value = updatedSensorDataList
             sensorData.postValue(updatedSensorDataList)
 
-
-            var direction = ""
-            if (xValue > 1) {
-                direction = "Höger"
-            } else if (xValue < -1) {
-                direction = "Vänster"
-            } else if (yValue > 1) {
-                direction = "Framåt"
-            } else if (yValue < -1) {
-                direction = "Bakåt"
-            }
-
-            // Update the soldier's orientation
-            val newOrientationDeterminer = OrientationDeterminer(Position(3f, 0f), Orientation(System.currentTimeMillis(), 0.0), direction, "UP")
-            soldierOrientation.value = newOrientationDeterminer
-            soldierOrientation.postValue(newOrientationDeterminer)
         }
-
 
 
     }
