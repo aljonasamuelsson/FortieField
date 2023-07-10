@@ -35,7 +35,9 @@ android {
         viewBinding true
         dataBinding true
     }
+
 }
+
 
 dependencies {
 
@@ -47,7 +49,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.health:health-services-client:1.0.0-beta01'
+    implementation files('libs/accessory-v2.6.5.jar')
+
 
 
 
