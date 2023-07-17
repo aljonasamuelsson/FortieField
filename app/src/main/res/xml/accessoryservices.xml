@@ -1,0 +1,11 @@
+<services>
+    <service>
+        <serviceImpl>.sensors.GalaxyWatchService</serviceImpl>
+        <serviceId>GalaxyWatchServiceId</serviceId>
+        <version>1.0</version>
+        <serviceProtocol>GEAR3</serviceProtocol>
+        <zeroTouch>false</zeroTouch>
+        <description>Your service description</description>
+        <icon>@mipmap/ic_launcher</icon>
+    </service>
+</services>
