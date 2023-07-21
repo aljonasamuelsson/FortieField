@@ -66,4 +66,6 @@
         <package android:name="com.google.android.wearable.healthservices" />
     </queries>
 
+
+
 </manifest>

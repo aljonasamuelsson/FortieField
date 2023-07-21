@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "FortiField"
 include ':app'
+include ':galaxywatchmodule'

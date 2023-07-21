@@ -38,7 +38,7 @@ class CombatSimulationFragment : Fragment() {
     private lateinit var combatView: CombatView
 
     private inner class CombatView(context: Context) : View(context) {
-        override fun onDraw(canvas: Canvas?) {
+        override fun onDraw(canvas: Canvas) {
             super.onDraw(canvas)
             if (canvas != null) {
                 environmentRenderer.drawEnvironment(canvas)
